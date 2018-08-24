@@ -1,0 +1,46 @@
+{
+  "name": "clientside_logger",
+  "version": "1.0.0",
+  "description": "Clientside_logger to capture client side error information during runtimme",
+  "main": "dist/logger.js",
+  "scripts": {
+    "build": "cross-env NODE_ENV=production node ./node_build/build.js",
+    "test": "cross-env NODE_ENV=test jest --config ./node_build/config/jest/jest.config.js --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/raghuraghavan/clientside_logger.git"
+  },
+  "files": [
+    "readme.md",
+    "dist",
+    "doc"
+  ],
+  "keywords": [
+    "Client",
+    "side",
+    "logger"
+  ],
+  "author": "Raghu Raghavan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/raghuraghavan/clientside_logger/issues"
+  },
+  "homepage": "https://github.com/raghuraghavan/clientside_logger#readme",
+  "devDependencies": {
+    "babel-plugin-dynamic-import-node": "^2.0.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+    "babel-plugin-transform-object-assign": "^6.22.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "babelify": "^8.0.0",
+    "browserify": "^16.2.2",
+    "chalk": "^2.4.1",
+    "cross-env": "^5.2.0",
+    "eslint": "^5.4.0",
+    "eslint-rules-es2015": "^1.0.0",
+    "jest": "^23.5.0",
+    "nodemon": "^1.18.3",
+    "uglify-js": "^3.4.8"
+  }
+}

@@ -1,0 +1,14 @@
+{
+    "verbose" : false,
+    "ignore" : [
+        "node_build/config/nodemon.config.json",
+        "node_build/config/*",
+        "node_modules",
+        "doc",
+        "dist/*"
+    ],
+    "watch" : [
+        "lib"
+    ],
+    "ext" : "js jsx"
+}
