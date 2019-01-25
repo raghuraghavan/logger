@@ -2,7 +2,7 @@
   "name": "browserLogger",
   "version": "1.0.0",
   "description": "Clientside_logger to capture client side error information during runtimme",
-  "main": "dist/index.js",
+  "main": "dist/clientside-Logger.js",
   "scripts": {
     "babelify": "cross-env NODE_ENV=production node ./node_build/build.js",
     "build": "npm run babelify"
