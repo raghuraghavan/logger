@@ -4,7 +4,6 @@
   "description": "Clientside_logger to capture client side error information during runtimme",
   "main": "dist/index.js",
   "scripts": {
-    "transpile": "babel lib --out-dir dist --copy-files ",
     "babelify": "cross-env NODE_ENV=production node ./node_build/build.js",
     "build": "npm run babelify"
   },
