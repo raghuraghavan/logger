@@ -1,4 +1,4 @@
-const dir = require('./config/directory.js');
+//const dir = require('./config/directory.js');
 const browserify = require('browserify');
 const babelify = require('babelify');
 const chalk = require('chalk');
@@ -23,6 +23,7 @@ const writeFile = (fileName, code) => {
 }
 
 try {
+    const originalFile = './lib/logger.js'
     const folderName = 'dist';
     const filename = 'clientside-Logger.js';
     const filename_with_minification = 'clientside-Logger.min.js';
@@ -33,15 +34,13 @@ try {
     } else {
         console.log(chalk.blue.bold(`[ Folder exist : ${folderName} ]`));
     }
-    browserify(dir.lib['browserLogger'])
+    browserify(originalFile)
         .transform(babelify, { presets: ["@babel/preset-env"] })
         .bundle((err, result) => {
             if (!err) {
                 try {
                     const filewithfolderName = `./${folderName}/${filename}`;
                     const minifyfilewithfolderName = `./${folderName}/${filename_with_minification}`;
-                    console.log(filewithfolderName);
-                    console.log(minifyfilewithfolderName);
                     let code2File = result.toString('utf8');
                     writeFile(filewithfolderName, code2File);
                     writeFile(minifyfilewithfolderName, uglify.minify(code2File).code);
