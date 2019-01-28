@@ -1,12 +1,12 @@
-(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.cslogger = f().default}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.fatal = exports.error = exports.warn = exports.info = exports.log = exports.debug = exports.tryCatch = exports.catcher = exports.init = exports.LOGLEVELS = void 0;
+exports.default = exports.fatal = exports.error = exports.warn = exports.info = exports.log = exports.debug = exports.tryCatch = exports.catcher = exports.init = exports.logLevels = void 0;
 
-var _Cache = _interopRequireDefault(require("./util/Cache"));
+var _Store = _interopRequireDefault(require("./util/Store"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -20,7 +20,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-var LOGLEVELS = {
+var logLevels = {
   DEBUG: "DEBUG",
   LOG: "LOG",
   INFO: "INFO",
@@ -28,8 +28,8 @@ var LOGLEVELS = {
   ERROR: "ERROR",
   FATAL: "FATAL"
 };
-exports.LOGLEVELS = LOGLEVELS;
-var LOGTHESHOLD = {
+exports.logLevels = logLevels;
+var logThresholds = {
   DEBUG: 0,
   LOG: 1,
   INFO: 2,
@@ -37,13 +37,13 @@ var LOGTHESHOLD = {
   ERROR: 4,
   FATAL: 5
 };
-var cache = new _Cache.default({
+var store = new _Store.default({
   instantiated: false,
   logURL: '',
-  logLevels: Object.keys(LOGLEVELS).map(function (key) {
-    return LOGLEVELS[keys];
+  logLevels: Object.keys(logLevels).map(function (key) {
+    return logLevels[key];
   }),
-  logThresold: LOGLEVELS.ERROR,
+  logThresold: logLevels.ERROR,
   routeURL: '',
   showMessageInDevelopment: true,
   showMessageInProduction: false,
@@ -55,6 +55,7 @@ var logger = function logger() {
   var payload = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
   var logLevel = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'FATAL';
   var logURL = cache.get('logURL');
+  var logThreshold = store.get('logThreshold');
   var routeURL = cache.get('routeURL');
   var showMessageInDevelopment = cache.get('showMessageInDevelopment');
   var showMessageInProduction = cache.get('showMessageInProduction');
@@ -91,7 +92,7 @@ var logger = function logger() {
       }
     };
 
-    if (logURL && LOGTHESHOLD[logLevel] >= LOGTHESHOLD[logThresold]) {
+    if (logURL && logThresholds[logLevel] >= logThresholds[logThreshold]) {
       var formattedPayload = Object.assign({
         url: window.location.pathname,
         logType: logLevel,
@@ -154,7 +155,7 @@ var listener = {
 var init = function init() {
   var _ref3 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
       logURL = _ref3.logURL,
-      logThresold = _ref3.logThresold,
+      logThreshold = _ref3.logThreshold,
       routeURL = _ref3.routeURL,
       showMessageInDevelopment = _ref3.showMessageInDevelopment,
       showMessageInProduction = _ref3.showMessageInProduction,
@@ -166,31 +167,31 @@ var init = function init() {
   }
 
   if (typeof logURL === 'string') {
-    cache.set('logURL', logURL);
+    store.set('logURL', logURL);
   }
 
-  if (typeof logThresold === 'string') {
-    cache.set('logThresold', logThresold);
+  if (typeof logThreshold === 'string') {
+    store.set('logThreshold', logThreshold);
   }
 
   if (typeof routeURL === 'string') {
-    cache.set('routeURL', routeURL);
+    store.set('routeURL', routeURL);
   }
 
   if (typeof silenceStackTrace === 'boolean') {
-    cache.set('silenceStackTrace', silenceStackTrace);
+    store.set('silenceStackTrace', silenceStackTrace);
   }
 
   if (typeof showMessageInDevelopment === 'boolean') {
-    cache.set('showMessageInDevelopment', showMessageInDevelopment);
+    store.set('showMessageInDevelopment', showMessageInDevelopment);
   }
 
   if (typeof showMessageInProduction === 'boolean') {
-    cache.set('showMessageInProduction', showMessageInProduction);
+    store.set('showMessageInProduction', showMessageInProduction);
   }
 
   if (additionalInformation) {
-    cache.set('additionalInformation', additionalInformation);
+    store.set('additionalInformation', additionalInformation);
   }
 };
 
@@ -260,7 +261,7 @@ var _default = {
   init: init,
   catcher: catcher,
   tryCatch: tryCatch,
-  LOGLEVELS: LOGLEVELS,
+  logLevels: logLevels,
   debug: debug,
   log: log,
   info: info,
@@ -270,7 +271,7 @@ var _default = {
 };
 exports.default = _default;
 
-},{"./util/Cache":2}],2:[function(require,module,exports){
+},{"./util/Store":2}],2:[function(require,module,exports){
 "use strict";
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -279,30 +280,31 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var Cache =
+var Store =
 /*#__PURE__*/
 function () {
-  function Cache(cache) {
-    _classCallCheck(this, Cache);
+  function Store(store) {
+    _classCallCheck(this, Store);
 
-    this.cache = cache || {};
+    this.store = store || {};
   }
 
-  _createClass(Cache, [{
+  _createClass(Store, [{
     key: "set",
     value: function set(key, value) {
-      this.cache[key] = value;
+      this.store[key] = value;
     }
   }, {
     key: "get",
     value: function get(key) {
-      return this.cache[key];
+      return this.store[key];
     }
   }]);
 
-  return Cache;
+  return Store;
 }();
 
-module.exports = Cache;
+module.exports = Store;
 
-},{}]},{},[1]);
+},{}]},{},[1])(1)
+});

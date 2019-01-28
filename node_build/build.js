@@ -23,10 +23,10 @@ const writeFile = (fileName, code) => {
 }
 
 try {
-    const originalFile = './lib/logger.js'
+    const originalFile = './lib/index.js'
     const folderName = 'dist';
-    const filename = 'clientside-Logger.js';
-    const filename_with_minification = 'clientside-Logger.min.js';
+    const filename = 'csLogger.js';
+    const filename_with_minification = 'csLogger.min.js';
     if (!fs.existsSync(folderName)) {
         fs.mkdir(folderName, () => {
             console.log(chalk.green.bold(` Distrubtion Folder created : ${folderName} `));
@@ -34,14 +34,14 @@ try {
     } else {
         console.log(chalk.blue.bold(`[ Folder exist : ${folderName} ]`));
     }
-    browserify(originalFile)
+    browserify(originalFile, { standalone: 'cslogger' })
         .transform(babelify, { presets: ["@babel/preset-env"] })
         .bundle((err, result) => {
             if (!err) {
                 try {
                     const filewithfolderName = `./${folderName}/${filename}`;
                     const minifyfilewithfolderName = `./${folderName}/${filename_with_minification}`;
-                    let code2File = result.toString('utf8');
+                    let code2File = result.toString('utf8').replace('cslogger = f()', match => match + '.default');
                     writeFile(filewithfolderName, code2File);
                     writeFile(minifyfilewithfolderName, uglify.minify(code2File).code);
                 } catch (_error) {
